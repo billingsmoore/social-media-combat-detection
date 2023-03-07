@@ -18,6 +18,6 @@ try:
 except:
     print(f'{url} failed to download!!!')
 
-messages = process_html.process('page.html')
+#messages = process_html.process('page.html')
 
-print(messages[:5])
+#print(messages[:5])
