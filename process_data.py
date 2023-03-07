@@ -31,6 +31,4 @@ def archive_result(data):
 
 dat = process_data('sample.html')
 
-print(dat[:5])
-
 archive_result(dat)
