@@ -32,7 +32,7 @@ def clean_messages(messages):
         for word in message:
             if word in removal_list:
                 message.remove(word)
-        message_out.append(" ".join(message))
+        message_out.append(message)
 
     return message_out
 
