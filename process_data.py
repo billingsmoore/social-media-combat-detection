@@ -1,8 +1,6 @@
 import assign_sentiments
 import process_html
 
-
-
 def process_data(source):
     data = []
     dates, messages = process_html.process(source)
