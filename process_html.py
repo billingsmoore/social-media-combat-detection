@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import pandas as pd
 
 # helper function to retrieve messages from html
 
@@ -36,19 +37,22 @@ def clean_messages(messages):
         for word in message:
             if word in removal_list:
                 message.remove(word)
-        message_out.append(message)
+        message_out.append((" ".join(message)).replace('/>', '').replace('<br', ''))
 
     return message_out
 
 # helper function to clean dates
 def clean_dates(dates):
+    clean_dates = []
     for date in dates:
         # clean time
         date[0] = date[0][13:]
         # clean year
         date[-1] = date[-1][:4]
+
+        clean_dates.append(pd.to_datetime(" ".join(date)).strftime('%Y-%m-%d %X'))
     
-    return dates
+    return clean_dates
 
 
 # function to process html file into a list of messages. Each message is itself a list of words. 

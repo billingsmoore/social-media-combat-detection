@@ -20,6 +20,7 @@ def assign(messages):
     sentiments = []
 
     for message in messages:
+        message = message.split()
         sentiment = 0
         for word in message:
             if word in pos_words:

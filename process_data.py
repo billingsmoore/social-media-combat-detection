@@ -1,6 +1,5 @@
 import assign_sentiments
 import process_html
-import pandas as pd
 import csv
 
 # NOTE!!! This file is set to only process SAMPLE.HTML!
@@ -14,8 +13,8 @@ def process_data(source):
     sentiments = assign_sentiments.assign(messages)
     for i in range(len(dates)):
         #clean up the format of the data points
-        date = pd.to_datetime(" ".join(dates[i])).strftime('%Y-%m-%d %X')
-        message = (" ".join(messages[i])).replace('/>', '').replace('<br', '')
+        date = dates[i]
+        message = messages[i]
         data.append((date, message, sentiments[i]))
     return data
 
@@ -31,5 +30,7 @@ def archive_result(data):
             writer.writerow(row)
 
 dat = process_data('sample.html')
+
+print(dat[:5])
 
 archive_result(dat)
