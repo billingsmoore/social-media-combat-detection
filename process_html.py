@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
-#import json 
+
+# import html
 
 file = open('sample.html', 'r')
 
@@ -11,23 +12,27 @@ text = soup.text
 
 split_text = text.split()
 
-messages = []
+# retrieve messages from html
 
+messages = []
 
 for i in range(len(split_text)):
     if split_text[i] == 'TRANSLATION':
         message = []
-        print('message found: ')
         message.append(split_text[i])
         j = 1
         while split_text[i + j] != '/>ORIGINAL':
-            #print(split_text[i + j])
             message.append(split_text[i + j])
             j += 1
         messages.append(message)
-        #print(message)
+
+
+# clean messages
+removal_list = ['/>', '<br', 'TRANSLATION', ':', 'SUBSCRIBE']
 
 for message in messages:
-    message.join(' ')
+    for word in message:
+        if word in removal_list:
+            message.remove(word)
 
-print(messages)
+print(messages[:5])
