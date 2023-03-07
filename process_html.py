@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
 
-
-
 # helper function to retrieve messages from html
 
 def retrieve_messages(split_text):

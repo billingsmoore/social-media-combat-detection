@@ -1,4 +1,5 @@
 # this assigns sentiments to each message
+# should be made more sophisticated in the future
 
 #load in the lists
 def load_lists():
