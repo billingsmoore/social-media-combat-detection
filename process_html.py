@@ -26,12 +26,15 @@ def clean_messages(messages):
 
     removal_list = ['/>', '<br', 'TRANSLATION', ':', 'SUBSCRIBE']
 
+    message_out = []
+
     for message in messages:
         for word in message:
             if word in removal_list:
                 message.remove(word)
+        message_out.append(" ".join(message))
 
-    return messages
+    return message_out
 
 
 # function to process html file into a list of messages. Each message is itself a list of words. 
@@ -51,15 +54,6 @@ def process(filename):
     messages = retrieve_messages(split_text)
 
     # clean the messages
-    clean_messages(messages)
+    messages = clean_messages(messages)
 
     return messages
-
-
-# test
-
-#filename = 'sample.html'
-
-#messages = process(filename)
-
-#print(messages[:5])

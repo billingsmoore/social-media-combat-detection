@@ -4,3 +4,4 @@ import process_html
 
 messages = process_html.process('sample.html')
 
+print(messages[:5])
