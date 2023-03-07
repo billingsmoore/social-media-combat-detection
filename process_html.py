@@ -58,8 +58,8 @@ def process(filename):
 
 # test
 
-filename = 'sample.html'
+#filename = 'sample.html'
 
-messages = process(filename)
+#messages = process(filename)
 
-print(messages[:5])
+#print(messages[:5])
