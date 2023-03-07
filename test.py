@@ -1,8 +1,8 @@
-import process_html
+import html_management.process_html as process_html
 import assign_sentiments
 
 
-filename = 'sample.html'
+filename = 'html_management/sample.html'
 
 test_messages = [['This', 'is', 'a', 'day'],
                  ['This', 'is', 'a', 'terrible', 'day'],

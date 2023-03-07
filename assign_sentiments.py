@@ -3,11 +3,11 @@
 #load in the lists
 def load_lists():
     # open positives list
-    with open("positive-words.txt", "r") as pos:
+    with open("lexicon/positive-words.txt", "r") as pos:
         pos_words = pos.read().split()
 
     # open negatives list
-    with open("negative-words.txt", "r") as neg:
+    with open("lexicon/negative-words.txt", "r") as neg:
         neg_words = neg.read().split()
 
     return pos_words, neg_words

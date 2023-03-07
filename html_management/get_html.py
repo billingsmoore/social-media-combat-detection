@@ -1,5 +1,5 @@
 import requests
-import process_html
+import html_management.process_html as process_html
 
 # not currently working
 # need to contact site owner, may allow much, much easier scraping if i ask nicely
