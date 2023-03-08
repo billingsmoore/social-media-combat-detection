@@ -17,7 +17,3 @@ def get_html(url, filename):
     with open(filename, 'w') as f:
             f.write(source)
 
-for n in range(1, 61):
-    url = "https://ukraine.osintukraine.com/2023-01_" + str(n) + ".html"
-    filename = '2023-1_' + str(n)
-    get_html(url, filename)
