@@ -99,5 +99,4 @@ def enrich(df):
     # add location to dataframe
     df['city'] = city_results
     df['oblast'] = oblast_results
-
-
+    
