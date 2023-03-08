@@ -1,19 +1,23 @@
-import requests
-import process_html as process_html
+from selenium import webdriver
 
-# not currently working
-# need to contact site owner, may allow much, much easier scraping if i ask nicely
+def get_html(url, filename):
+    # Use Chrome as the browser
+    browser = webdriver.Chrome()
 
-url = 'https://ukraine.osintukraine.com/2023-01.html#2023-01-01'
-response = requests.get(url)
+    # Navigate to the URL
+    browser.get(url)
+    browser.implicitly_wait(100)
+    # Get the source HTML of the page
+    source = browser.page_source
 
-try:
-    html_content = response.content
+    # Close the browser
+    browser.quit()
 
-    with open('page.html', 'wb') as f:
-        f.write(html_content)
+    # Save source file
+    with open(filename, 'w') as f:
+            f.write(source)
 
-    print(f'{url} download successful')
-
-except:
-    print(f'{url} failed to download!!!')
+for n in range(1, 61):
+    url = "https://ukraine.osintukraine.com/2023-01_" + str(n) + ".html"
+    filename = '2023-1_' + str(n)
+    get_html(url, filename)
