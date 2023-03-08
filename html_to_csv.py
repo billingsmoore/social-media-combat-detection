@@ -70,26 +70,32 @@ def process_html(filename):
     contents = file.read()
     soup = BeautifulSoup(contents, 'lxml')
 
-    # convert html into text
-    text = soup.text
-    split_text = text.split()
-
-    # retrieve messages from the text
-    dates, messages = retrieve_messages(split_text)
-
+    # try to get dates from html
     clean_dates = []
+    dates = soup.find_all(class_='date')
+    for date in dates:
+        clean_dates.append(date.text)
 
-    if len(dates) == 0:
-        dates = soup.find_all(class_='date')
-        for date in dates:
-            clean_dates.append(date.text)
+    # try to get messages from html
+    clean_messages = []
+    messages = soup.find_all(class_='text')
+    for message in messages:
+        clean_messages.append(message.text)
 
-    # clean the messages
-    messages = clean_messages(messages)
-    if clean_dates == []:    
+    # if that doesn't work, go the long way
+    if clean_messages == [] or dates == []:
+        # convert html into text
+        text = soup.text
+        split_text = text.split()
+
+        # retrieve messages from the text
+        dates, messages = retrieve_messages(split_text)
+
+        # clean the messages and dates
+        clean_messages = clean_messages(messages)
         clean_dates = clean_dates(dates)
 
-    return clean_dates, messages
+    return clean_dates, clean_messages
 
 ######################################################################################
 # Enrichment Helpers
