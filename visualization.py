@@ -10,7 +10,11 @@ neg_time = alt.Chart(df).mark_point().encode(
     y='negativity',
     color =alt.Color('oblast', legend=alt.Legend(title="Negative Sentiments")),
     tooltip = 'message',
-).save('test_viz/neg_time.html')
+)
+
+neg_time = neg_time + neg_time.transform_regression('datetime', 'negativity').mark_line()
+
+neg_time.save('test_viz/neg_time.html')
 
 neg_oblast = alt.Chart(df).mark_point().encode(
     x='oblast',
