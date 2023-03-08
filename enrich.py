@@ -7,7 +7,7 @@ locations = {
     'Kyiv': 'Kyiv',
     'Kharkiv': 'Kharkiv',
     'Odesa': 'Odesa',
-    'Dnipro': 'Dnipro-petronsk',
+    'Dnipro': 'Dnipro-petrovsk',
     'Donetsk': 'Donetsk',
     'Zaporizhzhia': 'Zaporizhzhia',
     'Lviv': 'Dnipro-petrovsk',
