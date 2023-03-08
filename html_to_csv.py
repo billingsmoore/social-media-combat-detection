@@ -220,5 +220,5 @@ def html_to_csv(file):
     enrich(df)
 
     # export to csv
-    csv_name = 'csv/' + file[5:-5] + '.csv'
+    csv_name = '../sentimental-data/csv/' + file[25:-5] + '.csv'
     df.to_csv(csv_name)

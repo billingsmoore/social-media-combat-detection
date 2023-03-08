@@ -14,7 +14,7 @@ def get_html(url, filename):
     browser.quit()
 
     # Save source file
-    html_filename = 'html/' + filename +'.html'
+    html_filename = '../sentimental-data/html/' + filename +'.html'
     with open(html_filename, 'w') as f:
             f.write(source)
     return html_filename

@@ -6,4 +6,3 @@ for i in range(2,6):
     filename = '2023-1_' + str(i)
     filename = get_html.get_html(url, filename)
     html_to_csv.html_to_csv(filename)
-
