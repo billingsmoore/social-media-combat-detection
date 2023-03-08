@@ -37,7 +37,7 @@ def clean_messages(messages):
         for word in message:
             if word in removal_list:
                 message.remove(word)
-        message_out.append((" ".join(message)).replace('/>', '').replace('<br', ''))
+        message_out.append((" ".join(message)).replace('/>', '').replace('<br', '').replace('Kiev', 'Kyiv'))
 
     return message_out
 

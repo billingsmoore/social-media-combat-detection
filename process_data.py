@@ -1,6 +1,8 @@
 import assign_sentiments
 import process_html
 import csv
+import pandas as pd
+import enrich
 
 # NOTE!!! This file is set to only process SAMPLE.HTML!
 
@@ -8,27 +10,27 @@ import csv
 # then assign sentiment to each
 # return a list of 3-tuples: (date, translated-message, sentiment-score)
 def process_data(source):
-    data = []
     dates, messages = process_html.process(source)
     sentiments = assign_sentiments.assign(messages)
-    for i in range(len(dates)):
-        #clean up the format of the data points
-        date = dates[i]
-        message = messages[i]
-        data.append((date, message, sentiments[i]))
-    return data
+    # create dataframe
+    # split sentiments into separate columns {'neg': 0.153, 'neu': 0.847, 'pos': 0.0, 'compound': -0.4404}
+    neg = []
+    neu = []
+    pos = []
+    compound = []
+    for sentiment in sentiments:
+        neg.append(sentiment['neg'])
+        neu.append(sentiment['neu'])
+        pos.append(sentiment['pos'])
+        compound.append(sentiment['compound'])
+    d = {'datetime': dates, 'message': messages, 'negativity': neg, 'neutrality': neu, 'positivity': pos, 'compound': compound}
+    df = pd.DataFrame(data=d)
 
-# output the data into a summary csv file for archiving
-def archive_result(data):
-    # open the file in the write mode
-    csv_name = str(data[0][0][:10]) + '.csv'
-    with open(csv_name, 'w') as f:
-        # create the csv writer
-        writer = csv.writer(f)
-        for row in data:
-            # write a row to the csv file
-            writer.writerow(row)
+    enrich.enrich(df)
 
-dat = process_data('sample.html')
+    # export to csv
+    csv_name = str(df['datetime'][0][:10]) + '.csv'
+    df.to_csv(csv_name)
 
-archive_result(dat)
+
+process_data('sample.html')
