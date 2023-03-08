@@ -2,7 +2,7 @@ This project is an attempt to perform sentiment analysis on Ukrainian telegram m
 
 Messages are from the archive done by osintukraine.
 
-As of Mar 7, 2023 I have a complete single-day prototype for the html -> csv -> visualization pipeline.
+As of Mar 7, 2023 I have a complete single-day prototype for the url -> html -> csv -> visualization pipeline.
 
 From here, I intend to scale up to week, then month, then finally, complete data and 
 build out more informative visualizations.
