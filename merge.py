@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-my_path = 'test_csv'
+my_path = '../sentimental-data/ukraine/csv'
 
-my_filename = 'merged'
+my_filename = 'ukraine'
 
 def merge_csv(path, filename):
     
@@ -17,6 +17,6 @@ def merge_csv(path, filename):
     
     df['datetime'] = pd.to_datetime(df['datetime'])
 
-    df.to_csv(path + '/' + filename + '.csv')
+    df.to_csv('../sentimental-data/merged-data/' + filename + '.csv')
 
 merge_csv(my_path, my_filename)
