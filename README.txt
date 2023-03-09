@@ -4,6 +4,8 @@ Messages are from the archive done by osintukraine.
 
 As of Mar 7, 2023 I have a complete single-day prototype for the url -> html -> csv -> visualization pipeline.
 
+Scrapes and processing to csv are complete and archived from April 2022 through February 2023.
+
 From here, I intend to scale up to week, then month, then finally, complete data and 
 build out more informative visualizations.
 
