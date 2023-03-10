@@ -1,18 +1,14 @@
 import pandas as pd
 import altair as alt
+import altair_saver
 
-# need to refactor for more general archiving of visualizations
-# right now it saves everything into test_viz
 
-filename = 'test_csv/merged.csv'
-
-df = pd.read_csv(filename)
 
 # function for overall negativity over time
-def overall_neg_chart(df):
+def neg_chart(df,  time_unit):
     # Create a scatterplot of the negativity scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='negativity',
         tooltip='message',
         color =alt.Color('oblast', legend=alt.Legend(title="Negative Sentiments")),
@@ -20,7 +16,7 @@ def overall_neg_chart(df):
 
     # Create a line graph of the daily means
     linegraph = alt.Chart(df).mark_line().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='mean(negativity)',
         color=alt.value('red'),
     )
@@ -29,15 +25,15 @@ def overall_neg_chart(df):
     chart = (scatterplot + linegraph)
 
     # Display the chart
-    chart.save('test_viz/neg_time.html')
+    #chart.save(path + 'neg_time.html')
     return chart
     
 
 # function to make overall positivity over time chart
-def overall_pos_chart(df):
+def pos_chart(df,  time_unit):
     # Create a scatterplot of the scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='positivity',
         tooltip='message',
         color =alt.Color('oblast', legend=alt.Legend(title="Positive Sentiments")),
@@ -45,7 +41,7 @@ def overall_pos_chart(df):
 
     # Create a line graph of the daily means
     linegraph = alt.Chart(df).mark_line().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='mean(positivity)',
         color=alt.value('red'),
     )
@@ -54,15 +50,15 @@ def overall_pos_chart(df):
     chart = (scatterplot + linegraph)
 
     # Display the chart
-    chart.save('test_viz/pos_time.html')
+    #chart.save(path + 'pos_time.html')
     return chart
     
 
 # function to make overall neutrality  over time chart
-def overall_neu_chart(df):
+def neu_chart(df,  time_unit):
     # Create a scatterplot of the scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='neutrality',
         tooltip='message',
         color =alt.Color('oblast', legend=alt.Legend(title="Neutral Sentiments")),
@@ -70,7 +66,7 @@ def overall_neu_chart(df):
 
     # Create a line graph of the daily means
     linegraph = alt.Chart(df).mark_line().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='mean(neutrality)',
         color=alt.value('red'),
     )
@@ -79,15 +75,15 @@ def overall_neu_chart(df):
     chart = (scatterplot + linegraph)
 
     # Display the chart
-    chart.save('test_viz/neu_time.html')
+    #chart.save(path + 'neu_time.html')
     return chart
     
 
 # function to make overall compound over time chart
-def overall_com_chart(df):
+def com_chart(df,  time_unit):
     # Create a scatterplot of the negativity scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='compound',
         tooltip='message',
         color =alt.Color('oblast', legend=alt.Legend(title="Compound Sentiments")),
@@ -95,7 +91,7 @@ def overall_com_chart(df):
 
     # Create a line graph of the rolling daily means
     linegraph = alt.Chart(df).mark_line().encode(
-        x=alt.Color('datetime', timeUnit='monthdatehours'),
+        x=alt.Color('datetime', timeUnit=time_unit),
         y='mean(compound)',
         color=alt.value('red'),
     )
@@ -104,18 +100,27 @@ def overall_com_chart(df):
     chart = (scatterplot + linegraph)
 
     # Display the chart
-    chart.save('test_viz/com_time.html')
+    #chart.save(path + 'com_time.html')
     return chart
     
 
 # function to make all the overall charts
-def overall_charts(df):
-    neg = overall_neg_chart(df)
-    pos = overall_pos_chart(df)
-    neu = overall_neu_chart(df)
-    com = overall_com_chart(df)
+def charts(df,  time_unit):
+    neg = neg_chart(df,  time_unit)
+    pos = pos_chart(df,  time_unit)
+    neu = neu_chart(df,  time_unit)
+    com = com_chart(df,  time_unit)
 
     overall = neg & pos & neu & com
-    overall.save('test_viz/overall.html')
 
-overall_charts(df)
+    return overall
+    
+uk = pd.read_csv('data/ukrainekyiv.csv')
+ru = pd.read_csv('data/russiakyiv.csv')
+
+uk_overall = charts(uk, 'monthdate')
+ru_overall = charts(ru, 'monthdate')
+
+complete = uk_overall | ru_overall
+
+complete.save('visualizations/kyiv.html')
