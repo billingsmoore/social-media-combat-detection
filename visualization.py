@@ -1,11 +1,14 @@
 import pandas as pd
 import altair as alt
-import altair_saver
 
+# need to refactor for more general archiving of visualizations
+# right now it saves everything into test_viz
+
+filename = 'test_csv/merged.csv'
 
 
 # function for overall negativity over time
-def neg_chart(df,  time_unit):
+def overall_neg_chart(df):
     # Create a scatterplot of the negativity scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
         x=alt.Color('datetime', timeUnit=time_unit),
@@ -30,7 +33,7 @@ def neg_chart(df,  time_unit):
     
 
 # function to make overall positivity over time chart
-def pos_chart(df,  time_unit):
+def overall_pos_chart(df):
     # Create a scatterplot of the scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
         x=alt.Color('datetime', timeUnit=time_unit),
@@ -55,7 +58,7 @@ def pos_chart(df,  time_unit):
     
 
 # function to make overall neutrality  over time chart
-def neu_chart(df,  time_unit):
+def overall_neu_chart(df):
     # Create a scatterplot of the scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
         x=alt.Color('datetime', timeUnit=time_unit),
@@ -80,7 +83,7 @@ def neu_chart(df,  time_unit):
     
 
 # function to make overall compound over time chart
-def com_chart(df,  time_unit):
+def overall_com_chart(df):
     # Create a scatterplot of the negativity scores over time
     scatterplot = alt.Chart(df).mark_point().encode(
         x=alt.Color('datetime', timeUnit=time_unit),
@@ -105,22 +108,13 @@ def com_chart(df,  time_unit):
     
 
 # function to make all the overall charts
-def charts(df,  time_unit):
-    neg = neg_chart(df,  time_unit)
-    pos = pos_chart(df,  time_unit)
-    neu = neu_chart(df,  time_unit)
-    com = com_chart(df,  time_unit)
+def overall_charts(df):
+    neg = overall_neg_chart(df)
+    pos = overall_pos_chart(df)
+    neu = overall_neu_chart(df)
+    com = overall_com_chart(df)
 
     overall = neg & pos & neu & com
+    overall.save('test_viz/overall.html')
 
-    return overall
-    
-uk = pd.read_csv('data/ukrainekyiv.csv')
-ru = pd.read_csv('data/russiakyiv.csv')
-
-uk_overall = charts(uk, 'monthdate')
-ru_overall = charts(ru, 'monthdate')
-
-complete = uk_overall | ru_overall
-
-complete.save('visualizations/kyiv.html')
+overall_charts(df)

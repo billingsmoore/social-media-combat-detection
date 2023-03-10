@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 
-my_path = '../sentimental-data/russia/csv'
+my_path = 'test_csv'
 
-my_filename = 'russia'
+my_filename = 'merged'
 
 def merge_csv(path, filename):
     
