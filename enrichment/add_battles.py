@@ -59,8 +59,8 @@ def add_battles(row):
         start = pd.to_datetime(kharkiv_battles[i][0]) 
         end = pd.to_datetime(kharkiv_battles[i][1])
         if date >= start and date <= end:
-            return 'True'
-    return 'False'
+            return 1
+    return 0
 
 daily_means['fighting'] = daily_means.apply(add_battles, axis=1)
 
