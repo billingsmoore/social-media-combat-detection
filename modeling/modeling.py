@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 # load in data
 df = pd.read_csv('kharkiv_complete_data.csv')
 
-df = df.dropna()
+df.dropna(inplace=True)
 
 x = df.loc[:,'uk_negativity':'ru_compound']
 
@@ -63,3 +63,5 @@ df_model['Precision'] = precision.values()
 df_model['Recall'] = recall.values()
 
 print(df_model)
+
+df_model.to_csv('../sentimental-data/kharkiv/first-try-results.csv')

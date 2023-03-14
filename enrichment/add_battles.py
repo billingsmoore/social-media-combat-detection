@@ -1,5 +1,7 @@
 import pandas as pd
 
+# define battle lists
+
 kyiv_battles = [['24 February 2022 ', '25 February 2022 '],
                 ['24 February 2022 ', '24 February 2022 '],
                 ['25 February 2022 ', '27 February 2022 '],
@@ -22,48 +24,71 @@ kharkiv_battles = [['24 February 2022 ', '14 May 2022 '],
                    ['8 September 2022 ', '16 September 2022'],
                    ['6 September 2022', '2 October 2022']]
 
-uk = pd.read_csv('../sentimental-data/kharkiv/ukrainekharkiv.csv')
+chernihiv_battles = [['24 February 2022 ', '4 April 2022']]
 
-uk = uk.drop(columns=['Unnamed: 0.2', 'Unnamed: 0.1', 'Unnamed: 0', 'message', 'city', 'oblast'])
+dnipropetrovsk_battles = [['27 February 2022', '11 May 2022']]
 
-uk_daily_means = uk.groupby(pd.to_datetime(uk['datetime']).dt.date)[['negativity', 'neutrality', 'positivity', 'compound']].mean()
+poltava_battles = [['27 February 2022','11 May 2022']]
 
+# donetsk has had an ongoing battle since feb 21, 2022
+donetsk_battles = [['21 February 2022', '13 March 2023']]
 
-# load in russia
-ru = pd.read_csv('../sentimental-data/kharkiv/russiakharkiv.csv')
+kherson_battles = [['24 February 2022 ', '2 March 2022'],
+                   ['27 May 2022', '16 June 2022'],
+                   ['29 August 2022', '11 November 2022']]
 
-ru = ru.drop(columns=['Unnamed: 0.2', 'Unnamed: 0.1', 'Unnamed: 0', 'message', 'city', 'oblast'])
+mykolaiv_battles = [['29 August 2022', '11 November 2022'],
+                    ['26 February 2022', '8 April 2022'],
+                    ['2 March 2022', '3 March 2022'],
+                    ['9 March 2022', '13 March 2022']]
 
-ru_daily_means = ru.groupby(pd.to_datetime(ru['datetime']).dt.date)[['negativity', 'neutrality', 'positivity', 'compound']].mean()
+odesa_battles = [['24 February 2022', '25 February 2022 ']]
 
+sumy_battles = [['24 February 2022', '17 March 2022'],
+                ['24 February 2022', '4 April 2022'],
+                ['24 February 2022', '25 February 2022'],
+                ['24 February 2022', '26 March 2022'],
+                ['24 February 2022', '4 April 2022'],
+                ['24 February 2022', '26 March 2022'],
+                ['26 February 2022', '4 April 2022']]
 
-uk_daily_means.rename(columns = {'negativity' : 'uk_negativity',
-                                 'neutrality': 'uk_neutrality',
-                                 'positivity' : 'uk_positivity',
-                                 'compound' : 'uk_compound'}, inplace=True)
+zaporizhzhia_battles = [['25 February 2022', '1 March 2022'],
+                        ['28 February 2022', '4 March 2022'],
+                        ['5 March 2022', '13 March 2023']]
 
-ru_daily_means.rename(columns = {'negativity' : 'ru_negativity',
-                                 'neutrality': 'ru_neutrality',
-                                 'positivity' : 'ru_positivity',
-                                 'compound' : 'ru_compound'}, inplace=True)
+# luhansk has had an ongoing battle since may 5, 2022
+luhansk_battles = [['15 March 2022', '12 May 2022'],
+                   ['5 May 2022', '13 March 2023'],
+                   ['18 March 2022', '7 May 2022'],
+                   ['18 April 2022', '19 April 2022'],
+                   ['5 May 2022', '13 May 2022'],
+                   ['6 May 2022', '25 June 2022'],
+                   ['10 May 2022', '21 June 2022'],
+                   ['25 June 2022', '3 July 2022'],
+                   ['2 October 2022', '13 March 2023']]
 
-daily_means = uk_daily_means.join(ru_daily_means, on='datetime')
-
-
+# put battle lists into dictionary for lookup
+battle_dict = {'Kyiv': kyiv_battles,
+               'Luhansk': luhansk_battles,
+               'Chernihiv': chernihiv_battles,
+               'Dnipro-petrovsk': dnipropetrovsk_battles,
+               'Donetsk': donetsk_battles,
+               'Kharkiv': kharkiv_battles,
+               'Kherson': kherson_battles,
+               'Mykolaiv': mykolaiv_battles,
+               'Odesa': odesa_battles,
+               'Sumy': sumy_battles,
+               'Zaporizhzhia': zaporizhzhia_battles}
 
 
 def add_battles(row):
-
+    global battle_dict
+    oblast = row['oblast']
+    battles = battle_dict[oblast]
     date = pd.to_datetime(row.name)
-    for i in range(len(kharkiv_battles)):
-        start = pd.to_datetime(kharkiv_battles[i][0]) 
-        end = pd.to_datetime(kharkiv_battles[i][1])
+    for i in range(len(battles)):
+        start = pd.to_datetime(battles[i][0]) 
+        end = pd.to_datetime(battles[i][1])
         if date >= start and date <= end:
             return 1
     return 0
-
-daily_means['fighting'] = daily_means.apply(add_battles, axis=1)
-
-print(daily_means.head())
-
-daily_means.to_csv('kharkiv_complete_data.csv')
