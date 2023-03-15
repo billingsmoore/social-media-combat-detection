@@ -83,12 +83,29 @@ battle_dict = {'Kyiv': kyiv_battles,
 
 def add_battles(row):
     global battle_dict
-    oblast = row['oblast']
-    battles = battle_dict[oblast]
-    date = pd.to_datetime(row.name)
-    for i in range(len(battles)):
-        start = pd.to_datetime(battles[i][0]) 
-        end = pd.to_datetime(battles[i][1])
-        if date >= start and date <= end:
-            return 1
-    return 0
+    try:
+        oblast = row['oblast']
+        battles = battle_dict[oblast]
+        date = pd.to_datetime(row['datetime'])
+        for i in range(len(battles)):
+            start = pd.to_datetime(battles[i][0]) - pd.Timedelta(days=3)
+            end = pd.to_datetime(battles[i][0]) + pd.Timedelta(days=1)
+            if date >= start and date <= end:
+                return 1
+        return 0
+    except:
+        return 2
+    
+uk = pd.read_csv('../sentimental-data/merged-data/russia.csv')
+
+uk['fighting'] = uk.apply(add_battles, axis=1)
+
+uk = uk[uk['fighting'] != 2]
+
+print(uk.head())
+
+uk.to_csv('../sentimental-data/merged-data/russia-only-2-before.csv')
+
+uk = uk[uk['fighting'] != 0]
+
+print(uk.head())
