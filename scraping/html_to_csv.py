@@ -1,4 +1,4 @@
-import assign_sentiments
+import enrichment.assign_sentiments as assign_sentiments
 import csv
 import pandas as pd
 from bs4 import BeautifulSoup

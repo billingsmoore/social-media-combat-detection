@@ -11,16 +11,14 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 # load in data
-df = pd.read_csv('kharkiv_complete_data.csv')
+df = pd.read_csv('../sentimental-data/merged-data/russia-with-battles.csv')
 
-df = df.dropna()
-
-x = df.loc[:,'uk_negativity':'ru_compound']
+x = df.loc[:,'negativity':'compound']
 
 y = df['fighting']
 
 # split into train and test
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.75, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=0)
 
 # normalize data
 ss_train = StandardScaler()
@@ -63,3 +61,5 @@ df_model['Precision'] = precision.values()
 df_model['Recall'] = recall.values()
 
 print(df_model)
+
+#df_model.to_csv('../sentimental-data/merged-data/results/ru-only-2-before-results.csv')
