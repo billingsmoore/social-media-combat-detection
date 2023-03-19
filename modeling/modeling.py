@@ -20,7 +20,7 @@ x = df.loc[:,'uk_negativity':'ru_compound']
 y = df['fighting']
 
 # split into train and test
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.75, random_state=0)
 
 # normalize data
 ss_train = StandardScaler()
