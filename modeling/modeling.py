@@ -11,14 +11,14 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 # load in data
-df = pd.read_csv('../sentimental-data/merged-data/russia-with-battles.csv')
+df = pd.read_csv('../sentimental-data/merged-data/clean_complete.csv')
 
-x = df.loc[:,'negativity':'compound']
+x = df.loc[:,'uk_negativity':'ru_compound']
 
-y = df['fighting']
+y = df['2before']
 
 # split into train and test
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.75)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.9)
 
 # normalize data
 ss_train = StandardScaler()
@@ -62,4 +62,4 @@ df_model['Recall'] = recall.values()
 
 print(df_model)
 
-#df_model.to_csv('../sentimental-data/merged-data/results/ru-only-2-before-results.csv')
+df_model.to_csv('../sentimental-data/merged-data/complete_2before_results.csv')

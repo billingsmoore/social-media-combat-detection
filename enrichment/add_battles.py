@@ -88,24 +88,41 @@ def add_battles(row):
         battles = battle_dict[oblast]
         date = pd.to_datetime(row['datetime'])
         for i in range(len(battles)):
-            start = pd.to_datetime(battles[i][0]) - pd.Timedelta(days=3)
-            end = pd.to_datetime(battles[i][0]) + pd.Timedelta(days=1)
+            start = pd.to_datetime(battles[i][0])
+            end = pd.to_datetime(battles[i][1])
             if date >= start and date <= end:
                 return 1
         return 0
     except:
         return 2
     
-uk = pd.read_csv('../sentimental-data/merged-data/russia.csv')
+def add_battles_before(row):
+    global battle_dict
+    try:
+        oblast = row['oblast']
+        battles = battle_dict[oblast]
+        date = pd.to_datetime(row['datetime'])
+        for i in range(len(battles)):
+            start = pd.to_datetime(battles[i][0])-pd.Timedelta(days=2)
+            end = pd.to_datetime(battles[i][0])
+            if date >= start and date <= end:
+                return 1
+        return 0
+    except:
+        return 2
+    
+df = pd.read_csv('../sentimental-data/merged-data/ukraine.csv')
 
-uk['fighting'] = uk.apply(add_battles, axis=1)
+df['fighting'] = df.apply(add_battles, axis=1)
 
-uk = uk[uk['fighting'] != 2]
+df = df[df['fighting'] != 2]
 
-print(uk.head())
+df['2before'] = df.apply(add_battles_before, axis=1)
 
-uk.to_csv('../sentimental-data/merged-data/russia-only-2-before.csv')
+df = df[df['2before'] != 2]
 
-uk = uk[uk['fighting'] != 0]
+df = df.drop(columns=['city'])
 
-print(uk.head())
+df.to_csv('../sentimental-data/merged-data/ukraine_with_battles.csv')
+
+
