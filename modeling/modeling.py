@@ -13,9 +13,13 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 # load in data
 df = pd.read_csv('../sentimental-data/merged-data/clean_complete.csv')
 
-x = df.loc[:,'uk_negativity':'ru_compound']
+print(df.head())
 
-y = df['2before']
+x = df[['uk_compound','ru_compound']]
+
+print(x.head())
+
+y = df['fighting']
 
 # split into train and test
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.75)
@@ -62,4 +66,4 @@ df_model['Recall'] = recall.values()
 
 print(df_model)
 
-df_model.to_csv('../sentimental-data/merged-data/complete_2before_results.csv')
+df_model.to_csv('../sentimental-data/merged-data/results/complete_results.csv')
