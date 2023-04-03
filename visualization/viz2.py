@@ -5,12 +5,12 @@ from statsmodels.api import OLS
 
 df = pd.read_csv('../sentimental-data/kharkiv/kharkiv_complete_data.csv')
 
-seaborn.scatterplot(df, x='datetime', y='uk_compound', hue='fighting').get_figure().savefig('uk.png')
+seaborn.scatterplot(df, x='ru_compound', y='uk_compound', hue='fighting').get_figure().savefig('kharkiv_combo_scatterplot.png')
 
-seaborn.scatterplot(df, x='datetime', y='ru_compound', hue='fighting').get_figure().savefig('ru.png')
+#seaborn.scatterplot(df, x='datetime', y='ru_compound', hue='fighting').get_figure().savefig('ru.png')
 
-df2 = df[['uk_compound', 'ru_compound', 'fighting']]
+#df2 = df[['uk_compound', 'ru_compound', 'fighting']]
 
-seaborn.heatmap(df2.corr()).get_figure().savefig('heatmap.png')
+#seaborn.heatmap(df2.corr()).get_figure().savefig('heatmap.png')
 
-seaborn.pairplot(df2).savefig('pairplot.png')
+#seaborn.pairplot(df2).savefig('pairplot.png')
