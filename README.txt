@@ -1,14 +1,2 @@
-This project is an attempt to perform sentiment analysis on Ukrainian telegram messages.
-
-Messages are from the archive done by osintukraine.
-
-As of Mar 7, 2023 I have a complete single-day prototype for the url -> html -> csv -> visualization pipeline.
-
-Scrapes and processing to csv are complete and archived from April 2022 through February 2023.
-
-From here, I intend to scale up to week, then month, then finally, complete data and 
-build out more informative visualizations.
-
-It's worth looking into what it would look like to host the result as a web app but 
-that is far in the future.
+Social media posts can be assigned a sentiment score, which is a numerical evaluation of the relative positive or negative emotions displayed in the text. These sentiment scores can be used for prediction of various behaviors, both on an individual and societal scale. This project uses sentiment scores to determine whether or not there is an ongoing military battle in the regions the social media posts reference within an active war zone using data from the ongoing Russo-Ukrainian War. This detection is done using a series of supervised learning models, and is quite successful.
 
