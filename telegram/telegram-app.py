@@ -49,47 +49,48 @@ def find_combats(messages):
     return combats
 
 async def main():
-    report = {'time': datetime.now(),'num_messages': 0, 'num_combats': 0, 'errors': []}
+    while True:
+        report = {'time': datetime.now(),'num_messages': 0, 'num_combats': 0, 'errors': []}
 
-    try:
-        messages = await get_messages()
-        num_messages = len(messages)
-        report['num_messages'] = num_messages
-    
-    
-        if num_messages > 0:
-            try:
-                combats = find_combats(messages)
-                num_combats = len(combats)
-                report['num_combats'] = num_combats
+        try:
+            messages = await get_messages()
+            num_messages = len(messages)
+            report['num_messages'] = num_messages
+        
+        
+            if num_messages > 0:
+                try:
+                    combats = find_combats(messages)
+                    num_combats = len(combats)
+                    report['num_combats'] = num_combats
 
-                if num_combats > 0:
-                    try:
-                        await post_messages(combats)
-                    except:
-                        report['errors'].append('Failed to post messages.')
+                    if num_combats > 0:
+                        try:
+                            await post_messages(combats)
+                        except:
+                            report['errors'].append('Failed to post messages.')
 
-            except:
-                report['errors'].append('Failed to classify messages')
+                except:
+                    report['errors'].append('Failed to classify messages')
 
-    except:
-        report['errors'].append('Failed to get messages')
+        except:
+            report['errors'].append('Failed to get messages')
 
-    if len(report['errors']) == 0:
-        report['errors'].append('None')
+        if len(report['errors']) == 0:
+            report['errors'].append('None')
 
-    error_string = ''
-    for error in report['errors']:
-        error_string += error + '\n'
+        error_string = ''
+        for error in report['errors']:
+            error_string += error + '\n'
 
-    report_string = f"{report['time']}\nRetrieved {report['num_messages']} new messages. \nFound {report['num_combats']} combat events. \n Errors: {error_string}"
+        report_string = f"{report['time']}\nRetrieved {report['num_messages']} new messages. \nFound {report['num_combats']} combat events. \n Errors: {error_string}"
 
-    try:
-        await post_report(report_string)
-    except:
-        pass
+        try:
+            await post_report(report_string)
+        except:
+            pass
 
-    sleep(3600)
+        sleep(3600)
 
 if __name__ == "__main__":
     main()
